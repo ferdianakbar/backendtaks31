@@ -1,0 +1,21 @@
+{
+  "name": "backend-task31",
+  "version": "1.0.0",
+  "description": "task backend telko dds unit dev",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "backend",
+    "node",
+    "restify"
+  ],
+  "author": "Ferdian Akbar",
+  "license": "ISC",
+  "dependencies": {
+    "mongoose": "^5.1.3",
+    "restify": "^7.2.0",
+    "restify-validator": "^0.3.1"
+  }
+}
