@@ -11,3 +11,7 @@ var UserSchema = new Schema({
     email : String,
     telepon : Number,
 });
+
+var userModel = mongo.model('user', UserSchema);
+
+module.exports = userModel;

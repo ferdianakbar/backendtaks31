@@ -1,6 +1,8 @@
 helpers = require('../config/helper.js');
 userModel = require('../models/userModel.js');
 
+var users = {};
+
 module.exports = function(server){
     server.post('/register', function(req, res, next){
         req.assert('username', 'username diperlukan').notEmpty();
@@ -13,7 +15,7 @@ module.exports = function(server){
         if (errs) {
             helpers.failure(res, next, errs, 400);
         } else {
-            var user = new userModel();
+            var user = userModel();
             var nwuser = req.params;
             user.username = nwuser.username;
             user.password = nwuser.password;
@@ -34,12 +36,23 @@ module.exports = function(server){
     server.post('/login', function (req, res, next){
         req.assert('username', 'username diperlukan').notEmpty();
         req.assert('password', 'password diperlukan').notEmpty();
-        userModel.find({}, function(err){
-            if (err) {
-                helpers.failure(res, nex, 'username atau password salah', 302)
-            } else {
-                helpers.success(res, next, status);
-            }
-        }).findOne().sort({ field: 'asc', username: req.params.username, password: req.params.password}).limit(1);
+        var errs = req.validationErrors();
+
+        var errs = req.validationErrors();
+        if (errs) {
+            helpers.failure(res, next, errs, 400);
+        } else {
+
+            var nwusr = req.params;
+            userModel.findOne({username: nwusr.username, password: nwusr.password}, function(err, users){
+                if (err){
+                    helpers.failure(res, next, err, 404);
+                }else if ( users == null){
+                    helpers.failure(res, nex, 'username atau password salah', 404);
+                } else {
+                    helpers.success(res, next, users);
+                }
+            });
+        }
     })
 };
